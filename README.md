@@ -3,7 +3,7 @@ Identifies beat timing and musical tempo based on simulated sub-cortical neural 
 
 This suite of programs can be used to simulate subcortical neural activity in response to sounds and identify the frequency and timing of musical beats.  The programs are referred to in:
 
-> Zuk, N.J., Carney, L.H., and Lalor, E.C. (2018) Preferred tempo and low-audio-frequency bias emerge from simultaed sub-cortical processing of sounds with a musical beat. *Front Neurosci* 12:349. doi: 10.3389/fnins.2018.00349
+> Zuk, N.J., Carney, L.H., and Lalor, E.C. (2018) Preferred tempo and low-audio-frequency bias emerge from simultaed sub-cortical processing of sounds with a musical beat. *Front Neurosci* 12:349. doi: [10.3389/fnins.2018.00349](https://www.frontiersin.org/articles/10.3389/fnins.2018.00349/full)
 
 Sub-cortical neural activity is simulated using a cascade of two models: A model of cochlear and auditory nerve fiber processing, which was most recently updated in:
 
