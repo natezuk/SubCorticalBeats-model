@@ -1,16 +1,22 @@
-function [h,isi,MR,PSTH,poissdev] = ANisihist(y,Fs,cfs,varargin)
+function [h,isi,MR,PSTH] = ANisihist(y,Fs,cfs,varargin)
 % Computes the summed all-order ISI histogram for the spike activity of
-% auditory nerve fibers between the two frequencies in cfrange. The
+% high-spont auditory nerve fibers between the two frequencies in cfrange. The
 % auditory nerve fibers have human-like tuning (see Shera et al, 2001)
 % Inputs:
 %   - y = monaural input (Pascals)
 %   - Fs = sampling frequency (Hz)
-%   - cfs = the characteristic frequencies (in Hz) of each AN fiber included in the simulation
+%   - cfs = the characteristic frequencies (CF, in Hz) of each AN fiber included in the simulation, either a range of CFs (2 elements) or specific CFs for each fiber
+% Optional inputs (use 'name',value):
+%   - internoise = magnitude of internal noise (sp/s)
+%   - icunit = IC unit to use ('a','b','c','d', or 'e'; 'none' for just AN processing)
+%   - ictype = type of IC unit ('bandpass' or 'notch')
+%   - nanf = number of CFs to include if a CF range was specified in CFs.  The CFs in the range are logarithmically spaced
+%   - nrep = number of times to repeat the stimulus.  Specifically for the AN model.  The outputs are averaged across repetitions (note: the program is currently set with 1/Fs samples between repetitions) 
 % Outputs:
-%   - h = summed ISI histogram
-%   - isi = interspike intervals (s)
+%   - h = summed ISI histogram (in # spikes)
+%   - isi = interspike intervals for the ISI histogram (in s)
+%   - MR = firing rate, each column is for a different unit (in sp/s)
 %   - PSTH = psth of the different units
-%   - cfs = CFs of the different units
 % Nate Zuk (2018)
 
 isilast = floor(length(y)/Fs); % last isi to calculate (s)
@@ -19,8 +25,8 @@ icunit = 'a'; % ic unit to use
 ictype = 'bandpass'; % either 'bandpass' or 'notch'
 nanf = 30; % # of ANFs
 nrep = 1; % number of repetitions of the stimulus
-sfiestats = []; % extra stats for SFIE
 
+% Parse varargin (optional variables are specified with 'name',value)
 if ~isempty(varargin),
     for n=2:2:length(varargin),
         eval([varargin{n-1} '=varargin{n};']);
@@ -85,17 +91,6 @@ parfor c = 1:length(cfs),
             P(:,b) = psth';
             IC(:,b) = ic';
         end
-        % Compute the deviation from poisson
-        poissdev(:,c) = var(IC)-mean(IC);
-        % Now weight the histogram based on the median value
-        %disp('Now computing ISI histogram...');
-        %for b = 1:length(icunit),
-        %    [cnt,~] = aoisi(P(:,b)',Fs,'isilast',isilast);
-        %    mpd = median(poissdev(:,c));
-        %    if mpd<0, mpd=0; end
-%             h = h+cnt*mpd;
-        %    h = h+cnt;
-        %end
     end
     MR = [MR ic'];
     PSTH(:,:,c) = P(1:length(y),:);

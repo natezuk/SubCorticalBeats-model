@@ -3,8 +3,9 @@ function [ratio,isicnt] = isicount(h,isi,duration,varargin)
 % duration and divide by the total number of isis
 % Nate Zuk (2018)
 
-tol = 0.01; % the 1/2 width of the window surrounding the specified duration (s)
+tol = 0.01; % the 1/2 width of the window surrounding the specified duration (in ss)
 
+% Parse varargin (using 'name',value pairings in the input)
 if ~isempty(varargin),
     for n = 2:2:length(varargin),
         eval([varargin{n-1} '=varargin{n};']);
