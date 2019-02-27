@@ -1,7 +1,10 @@
 function [h,isi,MR,PSTH] = ANisihist(y,Fs,cfs,varargin)
 % Computes the summed all-order ISI histogram for the spike activity of
-% high-spont auditory nerve fibers between the two frequencies in cfrange. The
-% auditory nerve fibers have human-like tuning (see Shera et al, 2001)
+% high-spont auditory nerve fibers between the two frequencies in cfrange. The auditory
+% nerve activity is simulated using the model by Zilany et al (2014) and the same-frequency
+% inhibition/excitation (SFIE) filters simulating midbrain processing are using the model
+% by Nelson & Carney (2004). The auditory nerve fibers have human-like tuning (see
+% Shera et al, 2001).
 % Inputs:
 %   - y = monaural input (Pascals)
 %   - Fs = sampling frequency (Hz)
@@ -16,7 +19,7 @@ function [h,isi,MR,PSTH] = ANisihist(y,Fs,cfs,varargin)
 %   - h = summed ISI histogram (in # spikes)
 %   - isi = interspike intervals for the ISI histogram (in s)
 %   - MR = firing rate, each column is for a different unit (in sp/s)
-%   - PSTH = psth of the different units
+%   - PSTH = post-stimulus time histogram of the different units
 % Nate Zuk (2018)
 
 isilast = floor(length(y)/Fs); % last isi to calculate (s)
